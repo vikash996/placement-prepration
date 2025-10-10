@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aptitude Practice Quiz</title>
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: #1a1a1a;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+  }
+  h1 { color: #ff9933; margin-bottom: 20px; }
+  .quiz-container {
+    background: rgba(255,255,255,0.05);
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 700px;
+    width: 100%;
+    box-shadow: 0 0 20px #ff9933;
+  }
+  .question { font-size: 1.2rem; margin-bottom: 20px; }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option {
+    background: rgba(255,255,255,0.1);
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  .option:hover { background: #ff9933; color: #000; }
+  .btn { margin-top: 20px; padding: 10px 20px; background: #ff9933; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; }
+  .btn:hover { background: #ff6600; }
+  .result { margin-top: 20px; font-size: 1.2rem; color: #ff9933; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<h1>Aptitude Practice Quiz</h1>
+<div class="quiz-container">
+  <div id="quiz"></div>
+  <button class="btn" id="nextBtn">Next</button>
+  <div class="result" id="result"></div>
+</div>
+
+<script>
+const quizQuestions = [
+  {q:"5 + 7 = ?", options:["10","12","11","13"], answer:"12"},
+  {q:"If x=2, y=3, x*y=?", options:["5","6","7","8"], answer:"6"},
+  {q:"15 ÷ 3 = ?", options:["4","5","6","3"], answer:"5"},
+  {q:"Next number: 2,4,8,16,?", options:["24","32","64","20"], answer:"32"},
+  {q:"If 5x=20, x=?", options:["2","3","4","5"], answer:"4"},
+  {q:"25% of 200 = ?", options:["25","40","50","60"], answer:"50"},
+  {q:"a+b=10, a=6, b=?", options:["2","4","6","8"], answer:"4"},
+  {q:"√81=?", options:["7","8","9","10"], answer:"9"},
+  {q:"7*8=?", options:["54","56","58","60"], answer:"56"},
+  {q:"100-45=?", options:["55","65","45","50"], answer:"55"}
+];
+
+let currentQuestion = 0;
+let score = 0;
+
+const quizDiv = document.getElementById('quiz');
+const resultDiv = document.getElementById('result');
+const nextBtn = document.getElementById('nextBtn');
+
+function loadQuestion(){
+  quizDiv.innerHTML = "";
+  resultDiv.textContent = "";
+  if(currentQuestion >= quizQuestions.length){
+    quizDiv.innerHTML = `<h2>Quiz Completed!</h2><p>Your Score: ${score} / ${quizQuestions.length}</p>`;
+    nextBtn.style.display = "none";
+    return;
+  }
+  const qObj = quizQuestions[currentQuestion];
+  const questionEl = document.createElement('div');
+  questionEl.className = "question";
+  questionEl.textContent = `Q${currentQuestion+1}: ${qObj.q}`;
+  quizDiv.appendChild(questionEl);
+
+  const optionsDiv = document.createElement('div');
+  optionsDiv.className = "options";
+  qObj.options.forEach(opt=>{
+    const optBtn = document.createElement('div');
+    optBtn.className = "option";
+    optBtn.textContent = opt;
+    optBtn.onclick = ()=>{ checkAnswer(opt, qObj.answer); }
+    optionsDiv.appendChild(optBtn);
+  });
+  quizDiv.appendChild(optionsDiv);
+}
+
+function checkAnswer(selected, correct){
+  if(selected === correct){ score++; resultDiv.textContent = "✅ Correct!"; }
+  else{ resultDiv.textContent = `❌ Wrong! Correct answer: ${correct}`; }
+  nextBtn.disabled = false;
+}
+
+nextBtn.onclick = ()=>{
+  currentQuestion++;
+  nextBtn.disabled = true;
+  loadQuestion();
+}
+
+// Initialize quiz
+nextBtn.disabled = true;
+loadQuestion();
+</script>
+
+</body>
+</html>
