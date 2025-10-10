@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GLA Placement Preparation</title>
+  <style>
+    :root {
+      --accent-blue: #00bfff;
+      --accent-purple: #8a2be2;
+      --accent-yellow: #ffd166;
+      --accent-green: #00fa9a;
+      --glass: rgba(255,255,255,0.08);
+      --bg-img: url("https://noida.gla.ac.in/placement/placementBanner.webp");
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html, body { scroll-behavior: smooth; font-family: "Inter", sans-serif; }
+    body {
+      background: var(--bg-img) center/cover fixed no-repeat;
+      color: #fff;
+      position: relative;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      z-index: -1;
+    }
+
+    /* Navbar */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+    }
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent-blue);
+      text-shadow: 0 0 12px var(--accent-blue);
+    }
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+    nav a:hover { color: var(--accent-yellow); }
+
+    /* Hero */
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 1rem;
+    }
+    .hero h1 {
+      font-size: 2.8rem;
+      text-shadow: 0 0 15px var(--accent-blue);
+      animation: glowText 2s ease-in-out infinite alternate;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto 2rem;
+      color: #ddd;
+    }
+
+    @keyframes glowText {
+      from { text-shadow: 0 0 8px var(--accent-blue), 0 0 20px var(--accent-purple); }
+      to { text-shadow: 0 0 15px var(--accent-purple), 0 0 35px var(--accent-blue); }
+    }
+
+    /* Glowing Boxes */
+    .box-container {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      perspective: 1000px;
+      flex-wrap: wrap;
+    }
+    .box {
+      width: 230px; height: 180px;
+      background: var(--glass);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 0 15px rgba(0,191,255,0.25);
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+      position: relative;
+    }
+    .box:nth-child(1):hover { transform: rotateY(10deg) scale(1.05); box-shadow: 0 0 25px var(--accent-yellow); }
+    .box:nth-child(2):hover { transform: rotateY(0deg) translateY(-10px) scale(1.05); box-shadow: 0 0 25px var(--accent-green); }
+    .box:nth-child(3):hover { transform: rotateY(-10deg) scale(1.05); box-shadow: 0 0 25px var(--accent-purple); }
+
+    .box .title { font-size: 1.2rem; font-weight: 600; }
+    .box .cta {
+      margin-top: 0.5rem;
+      padding: 0.4rem 1rem;
+      background: var(--accent-blue);
+      color: #001;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .box .cta:hover { background: var(--accent-yellow); }
+
+    /* Sections */
+    section {
+      padding: 6rem 2rem;
+      max-width: 1100px;
+      margin: auto;
+      text-align: center;
+    }
+    section h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 0 10px var(--accent-blue);
+      color: var(--accent-blue);
+    }
+    section:nth-of-type(2n) h2 { color: var(--accent-green); text-shadow: 0 0 10px var(--accent-green); }
+    section:nth-of-type(3n) h2 { color: var(--accent-yellow); text-shadow: 0 0 10px var(--accent-yellow); }
+
+    section p, section li { color: #ddd; line-height: 1.8; font-size: 1.05rem; }
+    ul.feature-list { list-style: none; padding: 0; }
+    ul.feature-list li::before {
+      content: "✔ ";
+      color: var(--accent-yellow);
+    }
+
+    
+    .blog-preview, .stats {
+      background: rgba(255,255,255,0.05);
+      border-radius: 10px;
+      padding: 2rem;
+      margin-top: 2rem;
+    }
+
+    /* Footer */
+    footer {
+      background: rgba(0,0,0,0.85);
+      padding: 2rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #aaa;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    footer a { color: var(--accent-blue); text-decoration: none; margin: 0 8px; }
+    footer a:hover { color: var(--accent-yellow); }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2rem; }
+      .box-container { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">GLA Prepration</div>
+    <ul>
+      <li><a href="#why">Why Us</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#strategies">Strategies</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1>🚀 Ace Your GLA Placements with Confidence!</h1>
+    <p>Get access to the best curated content, mock tests, interview questions, and more to crack your dream job from GLA University.</p>
+    <div class="box-container">
+      <div class="box" data-link="tracks.html">
+        <div class="title">Tracks</div><button class="cta">Go</button>
+      </div>
+      <div class="box" data-link="year.html">
+        <div class="title">Your Year</div><button class="cta">Go</button>
+      </div>
+      <div class="box" data-link="package.html">
+        <div class="title">Package Oriented</div><button class="cta">Go</button>
+      </div>
+    </div>
+  </section>
+
+  
+  <section id="why">
+    <h2>🔍 Why Choose Us?</h2>
+    <p>Our app is designed specifically for GLA University students, focusing on unique placement patterns, company preferences, and interview rounds.</p>
+    <ul class="feature-list">
+      <li>GLA-specific practice sets</li>
+      <li>Topic-wise interview questions</li>
+      <li>Peer leaderboards and tracking</li>
+      <li>Real-time test simulation</li>
+      <li>HR + Technical interview tips</li>
+      <li>Resume builder</li>
+    </ul>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <h2>✨ Features That Boost Your Success</h2>
+    <ul class="feature-list">
+      <li>🧠 Topic-wise MCQs on DSA, DBMS, OS, CN, Aptitude</li>
+      <li>📈 Mock Tests by TCS, Infosys, Wipro</li>
+      <li>💬 HR & Technical Interview Prep from GLA alumni</li>
+      <li>🎯 Resume Review & Builder</li>
+      <li>🏆 Leaderboard to track performance</li>
+      <li>📝 Notes & Quick Revision Sheets</li>
+    </ul>
+  </section>
+
+ 
+  <section id="strategies">
+    <h2>💡 Smart Strategies for Cracking GLA Placements</h2>
+    <p>
+      Start Early: Prepare from 3rd year with Aptitude, DSA, Core Subjects.<br>
+      Make Projects: Showcase 1–2 strong ones on your resume.<br>
+      Join Clubs & Hackathons: Build teamwork & confidence.<br>
+      Use STAR Format: Situation, Task, Action, Result.<br>
+      Solve GLA Past Papers: 100+ verified questions from drives.
+    </p>
+  </section>
+
+  
+  <section>
+    <h2>🗣 What GLA Toppers Say About Us</h2>
+    <p>“This app helped me land an offer at TCS! The GLA-specific content and mocks were game-changers.” – <b>Anjali S., CSE 2024</b></p>
+    <p>“Loved the resume tips and interview guide. Simple yet powerful.” – <b>Harshit R., ECE 2023</b></p>
+  </section>
+
+
+  <section class="stats">
+    <h2>📊 GLA Placement Insights (2023–2024)</h2>
+    <p>
+      250+ students placed in top MNCs<br>
+      35% in product-based companies<br>
+      ₹3.6 LPA avg. CTC | ₹12 LPA highest<br>
+      Top Recruiters: TCS, Wipro, Infosys, Capgemini, Cognizant, Tech Mahindra
+    </p>
+  </section>
+
+ 
+  <section>
+    <h2>👥 Be a Part of the GLA Prep Community</h2>
+    <p>Join Telegram groups, WhatsApp discussions, coding contests & mentorship programs. You're not alone in this journey!</p>
+  </section>
+
+  
+  <section id="faq">
+    <h2>❓ Frequently Asked Questions</h2>
+    <p><b>How is this app different?</b> It’s 100% GLA-focused with real placement insights.</p>
+    <p><b>Is this only for CSE students?</b> No, all branches included.</p>
+    <p><b>Are tests time-bound?</b> Yes, to simulate real drives.</p>
+    <p><b>Can I access offline content?</b> Yes, core materials are downloadable.</p>
+    <p><b>Is this app free?</b> Most features are free; premium launching soon.</p>
+  </section>
+
+
+  <section class="blog-preview">
+    <h2>🔖 Latest Articles</h2>
+    <p>How to Crack TCS NQT | Resume Tips | Top 5 Aptitude Tricks</p>
+    <p>🎉 <b>10,000+ MCQs Solved | 5,000+ Users | 98% Positive Feedback</b></p>
+    <p>⏰ Next TCS Off-Campus Drive: <b>Oct 25, 2025 — Are You Ready?</b></p>
+  </section>
+
+
+  <footer id="contact">
+    <p>© 2025 GLA Placement Prep | All Rights Reserved</p>
+    <p>
+      <a href="#">About Us</a> |
+      <a href="#">Contact</a> |
+      <a href="#">Privacy Policy</a> |
+      <a href="#">Terms & Conditions</a> |
+      <a href="#">Follow Us</a>
+    </p>
+  </footer>
+
+  <script>
+    
+    document.querySelectorAll('.box').forEach(b => {
+      b.addEventListener('click', () => window.location.href = b.dataset.link);
+    });
+  </script>
+</body>
+</html>
