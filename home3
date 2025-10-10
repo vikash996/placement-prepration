@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1st Year Programs | Placement Prep</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: url("https://www.admissionlelo.in/upload/1555574153campus%203.jpg")
+        center center / cover no-repeat fixed;
+      position: relative;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      z-index: -1;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 60px auto;
+      background: rgba(22, 27, 34, 0.85);
+      border-radius: 20px;
+      padding: 40px 60px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(12px);
+      animation: fadeIn 1s ease;
+    }
+
+    h1 {
+      text-align: center;
+      color: #1a73e8;
+      font-size: 32px;
+      margin-bottom: 15px;
+    }
+
+    p {
+      text-align: center;
+      color: #ccc;
+      margin-bottom: 40px;
+      font-size: 16px;
+    }
+
+    .program-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+
+    .program-card {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      padding: 20px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+
+    .program-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 0 20px rgba(26, 115, 232, 0.6);
+      border-color: #1a73e8;
+    }
+
+    .program-title {
+      font-size: 17px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .program-code {
+      display: none;
+      background: #0f172a;
+      border-radius: 10px;
+      color: #00ffae;
+      font-family: monospace;
+      font-size: 14px;
+      padding: 15px;
+      margin-top: 10px;
+      white-space: pre-wrap;
+      border: 1px solid #1a73e8;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .program-card.open .program-code {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-top: 40px;
+      background: transparent;
+      border: 1px solid #1a73e8;
+      color: #1a73e8;
+      padding: 10px 25px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: #1a73e8;
+      color: #fff;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>1st Year Programs</h1>
+    <p>If you are in 1st year, you should try these 20 basic programming exercises.</p>
+
+    <div class="program-list" id="programList"></div>
+
+    <div style="text-align: center;">
+      <a href="year_selection.html" class="back-btn">← Back to Year Selection</a>
+    </div>
+  </div>
+
+  <script>
+    // 1st Year Programs (you can change for each year)
+    const programs = [
+      {
+        title: "1️⃣ Print 'Hello World'",
+        code: `#include <stdio.h>
+int main() {
+    printf("Hello, World!");
+    return 0;
+}`
+      },
+      {
+        title: "2️⃣ Find Sum of Two Numbers",
+        code: `#include <stdio.h>
+int main() {
+    int a, b, sum;
+    printf("Enter two numbers: ");
+    scanf("%d %d", &a, &b);
+    sum = a + b;
+    printf("Sum = %d", sum);
+    return 0;
+}`
+      },
+      {
+        title: "3️⃣ Check Even or Odd",
+        code: `#include <stdio.h>
+int main() {
+    int n;
+    printf("Enter a number: ");
+    scanf("%d", &n);
+    if(n % 2 == 0)
+        printf("Even");
+    else
+        printf("Odd");
+    return 0;
+}`
+      },
+      {
+        title: "4️⃣ Find Largest Among Three Numbers",
+        code: `#include <stdio.h>
+int main() {
+    int a, b, c;
+    printf("Enter three numbers: ");
+    scanf("%d %d %d", &a, &b, &c);
+    if(a >= b && a >= c)
+        printf("%d is largest", a);
+    else if(b >= a && b >= c)
+        printf("%d is largest", b);
+    else
+        printf("%d is largest", c);
+    return 0;
+}`
+      },
+      {
+        title: "5️⃣ Check Leap Year",
+        code: `#include <stdio.h>
+int main() {
+    int year;
+    printf("Enter a year: ");
+    scanf("%d", &year);
+    if((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0))
+        printf("%d is a leap year", year);
+    else
+        printf("%d is not a leap year", year);
+    return 0;
+}`
+      },
+      {
+        title: "6️⃣ Find Factorial of a Number",
+        code: `#include <stdio.h>
+int main() {
+    int n, i, fact = 1;
+    printf("Enter a number: ");
+    scanf("%d", &n);
+    for(i = 1; i <= n; i++)
+        fact *= i;
+    printf("Factorial = %d", fact);
+    return 0;
+}`
+      },
+      {
+        title: "7️⃣ Generate Fibonacci Series",
+        code: `#include <stdio.h>
+int main() {
+    int n, t1 = 0, t2 = 1, next;
+    printf("Enter number of terms: ");
+    scanf("%d", &n);
+    for(int i = 1; i <= n; ++i) {
+        printf("%d ", t1);
+        next = t1 + t2;
+        t1 = t2;
+        t2 = next;
+    }
+    return 0;
+}`
+      },
+      {
+        title: "8️⃣ Reverse a Number",
+        code: `#include <stdio.h>
+int main() {
+    int n, reversed = 0;
+    printf("Enter a number: ");
+    scanf("%d", &n);
+    while(n != 0) {
+        reversed = reversed * 10 + n % 10;
+        n /= 10;
+    }
+    printf("Reversed = %d", reversed);
+    return 0;
+}`
+      },
+      {
+        title: "9️⃣ Check Palindrome Number",
+        code: `#include <stdio.h>
+int main() {
+    int n, temp, reversed = 0;
+    printf("Enter a number: ");
+    scanf("%d", &n);
+    temp = n;
+    while(temp != 0) {
+        reversed = reversed * 10 + temp % 10;
+        temp /= 10;
+    }
+    if(n == reversed)
+        printf("Palindrome");
+    else
+        printf("Not Palindrome");
+    return 0;
+}`
+      },
+      {
+        title: "🔟 Find Sum of Digits",
+        code: `#include <stdio.h>
+int main() {
+    int n, sum = 0;
+    printf("Enter a number: ");
+    scanf("%d", &n);
+    while(n != 0) {
+        sum += n % 10;
+        n /= 10;
+    }
+    printf("Sum of digits = %d", sum);
+    return 0;
+}`
+      }
+    ];
+
+    // Render programs
+    const list = document.getElementById("programList");
+    programs.forEach((prog) => {
+      const card = document.createElement("div");
+      card.className = "program-card";
+      card.innerHTML = `
+        <div class="program-title">${prog.title}</div>
+        <div class="program-code">${prog.code}</div>
+      `;
+      card.onclick = () => card.classList.toggle("open");
+      list.appendChild(card);
+    });
+  </script>
+</body>
+</html>
