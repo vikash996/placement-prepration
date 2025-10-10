@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Select Your Year | Placement Prep</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: url("https://www.admissionlelo.in/upload/1555574153campus%203.jpg") 
+        center center / cover no-repeat fixed;
+      overflow: hidden;
+      position: relative;
+      color: #fff;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      z-index: -1;
+    }
+
+    .container {
+      text-align: center;
+      background: rgba(22, 27, 34, 0.85);
+      padding: 50px 70px;
+      border-radius: 25px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
+      animation: fadeIn 1s ease;
+    }
+
+    h1 {
+      font-size: 35px;
+      color: #1a73e8;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 16px;
+      color: #ccc;
+      margin-bottom: 40px;
+    }
+
+    .year-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 200px);
+      gap: 30px;
+      justify-content: center;
+    }
+
+    .year-card {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 25px;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .year-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(45deg, #1a73e8, #00ffae);
+      opacity: 0;
+      transition: 0.4s ease;
+      z-index: 0;
+    }
+
+    .year-card:hover::before {
+      opacity: 0.25;
+    }
+
+    .year-card span {
+      position: relative;
+      z-index: 1;
+    }
+
+    .year-card:hover {
+      transform: translateY(-6px) scale(1.05);
+      border-color: #1a73e8;
+      box-shadow: 0 0 20px rgba(26, 115, 232, 0.6);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .footer {
+      margin-top: 30px;
+      font-size: 13px;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Choose Your Year</h1>
+    <p>Select your current year to explore recommended programming exercises.</p>
+
+    <div class="year-grid">
+      <div class="year-card" onclick="openPrograms('1st')"><span>1st Year</span></div>
+      <div class="year-card" onclick="openPrograms('2nd')"><span>2nd Year</span></div>
+      <div class="year-card" onclick="openPrograms('3rd')"><span>3rd Year</span></div>
+      <div class="year-card" onclick="openPrograms('4th')"><span>4th Year</span></div>
+    </div>
+
+    <div class="footer">© 2025 Placement Prep | Built for Campus Students</div>
+  </div>
+
+  <script>
+    function openPrograms(year) {
+      
+      window.open(`${year.toLowerCase()}_year_programs.html`, "_blank");
+    }
+  </script>
+</body>
+</html>
