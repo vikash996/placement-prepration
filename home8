@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GLA Placement Preparation Portal</title>
+
+<style>
+  * {margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif;}
+  body {background:url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbXe5v-VDd7tfDXucVdu1FZkePqLcYbaLr6g&s") center/cover no-repeat fixed; min-height:100vh; color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; position:relative; text-align:center;}
+  body::before {content:"";position:absolute; inset:0; background:rgba(0,0,0,0.75); z-index:-1;}
+  nav {width:100%; background:rgba(0,0,0,0.6); padding:15px 40px; display:flex; justify-content:space-between; align-items:center; position:fixed; top:0; backdrop-filter:blur(10px); z-index:10; box-shadow:0 0 15px rgba(255,153,51,0.3);}
+  nav .logo { font-size:1.5rem; font-weight:700; color:#ff9933; }
+  nav ul { list-style:none; display:flex; gap:25px; }
+  nav ul li a { text-decoration:none; color:white; font-weight:500; transition:0.3s; }
+  nav ul li a:hover { color:#ff9933; text-shadow:0 0 10px #ff9933; }
+  .summary { margin-top:110px; max-width:850px; background:rgba(255,255,255,0.08); padding:35px; border-radius:20px; border:1px solid rgba(255,255,255,0.2); animation:fadeIn 1.5s ease; backdrop-filter:blur(5px);}
+  .summary h1 { font-size:2.5rem; color:#ff9933; margin-bottom:15px; }
+  .summary p { font-size:1.1rem; line-height:1.6; }
+  .options { margin-top:50px; display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:25px; width:90%; max-width:1000px; }
+  .card { background:rgba(255,255,255,0.08); border-radius:15px; padding:25px; cursor:pointer; border:1px solid rgba(255,255,255,0.2); transition:0.4s ease; position:relative; overflow:hidden; backdrop-filter:blur(5px); }
+  .card:hover { transform:translateY(-5px) scale(1.05); border-color:#ff9933; box-shadow:0 0 20px #ff9933; }
+  .card::before { content:""; position:absolute; inset:0; background:linear-gradient(45deg,#ff9933,#ff0066); opacity:0; transition:0.5s; }
+  .card:hover::before { opacity:0.25; }
+  .card h3 { position:relative; z-index:1; font-size:1.3rem; color:#fff; }
+  @keyframes fadeIn { from {opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);} }
+  .content-section { display:none; margin-top:100px; max-width:900px; background:rgba(255,255,255,0.08); padding:30px; border-radius:15px; border:1px solid rgba(255,255,255,0.2); backdrop-filter:blur(5px); overflow-y:auto; max-height:70vh; }
+  .back-btn { background:#ff9933; color:#000; padding:10px 20px; border:none; border-radius:8px; cursor:pointer; margin-bottom:20px; font-weight:600; }
+  .back-btn:hover { background:#ff6600; color:#fff; }
+  ul { list-style: inside decimal; text-align:left; }
+  li { margin-bottom:10px; }
+  .quiz-option { background: rgba(255,255,255,0.1); padding:8px 12px; margin:8px 0; border-radius:6px; cursor:pointer; transition:0.3s; }
+  .quiz-option:hover { background: #ff9933; color: #000; }
+  .quiz-result { margin-top:15px; font-weight:600; color:#ff9933; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">GLA Placements</div>
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Support</a></li>
+    <li><a href="#">Help</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="summary">
+  <h1>🚀 Ace Your GLA Placements with Confidence!</h1>
+  <p>Welcome to the GLA Placement Preparation Portal — your one-stop platform to get placement-ready. Explore curated study resources, mock interviews, aptitude tests, and project ideas to help you secure your dream job. Stay motivated, stay prepared, and let’s achieve success together!</p>
+</div>
+
+<div class="options" id="main-options">
+  <div class="card" onclick="showSection('dsa')"><h3>📘 DSA Companies Top 100 Questions</h3></div>
+  <div class="card" onclick="showSection('quiz')"><h3>🧠 Aptitude Practice (QUIZ)</h3></div>
+  <div class="card" onclick="showSection('resume')"><h3>🚀 Highest Resume Selected Template</h3></div>
+</div>
+
+<!-- DSA Questions Section -->
+<div class="content-section" id="dsa">
+  <button class="back-btn" onclick="goBack()">← Back</button>
+  <h2>DSA Companies Top 100 Questions</h2>
+  <ul id="dsa-list"></ul>
+</div>
+
+<!-- Quiz Section -->
+<div class="content-section" id="quiz">
+  <button class="back-btn" onclick="goBack()">← Back</button>
+  <h2>Aptitude Practice Quiz (10 Questions)</h2>
+  <div id="quiz-container"></div>
+  <div class="quiz-result" id="quiz-result"></div>
+</div>
+
+<!-- Resume Section -->
+<div class="content-section" id="resume">
+  <button class="back-btn" onclick="goBack()">← Back</button>
+  <h2>Highest Selected Resumes (20 Templates)</h2>
+  <ul id="resume-list"></ul>
+</div>
+
+<script>
+  // ----- DSA Questions with LeetCode links -----
+  const dsaQuestions = [];
+  for(let i=1;i<=100;i++){
+    let qTitle = `DSA Question ${i}`;
+    let link = `https://leetcode.com/problemset/all/?search=question${i}`; // placeholder links
+    dsaQuestions.push({title:qTitle, url:link});
+  }
+
+  const dsaList = document.getElementById('dsa-list');
+  dsaQuestions.forEach(q=>{
+    let li = document.createElement('li');
+    let a = document.createElement('a');
+    a.href = q.url;
+    a.target="_blank";
+    a.textContent = q.title;
+    a.style.color="#ff9933";
+    li.appendChild(a);
+    dsaList.appendChild(li);
+  });
+
+  // ----- Quiz Section -----
+  const quizQuestions = [
+    {q:"5 + 7 = ?", options:["10","12","11","13"], answer:"12"},
+    {q:"If x=2, y=3, x*y=?", options:["5","6","7","8"], answer:"6"},
+    {q:"15 ÷ 3 = ?", options:["4","5","6","3"], answer:"5"},
+    {q:"Next number: 2,4,8,16,?", options:["24","32","64","20"], answer:"32"},
+    {q:"If 5x=20, x=?", options:["2","3","4","5"], answer:"4"},
+    {q:"25% of 200 = ?", options:["25","40","50","60"], answer:"50"},
+    {q:"a+b=10, a=6, b=?", options:["2","4","6","8"], answer:"4"},
+    {q:"√81=?", options:["7","8","9","10"], answer:"9"},
+    {q:"7*8=?", options:["54","56","58","60"], answer:"56"},
+    {q:"100-45=?", options:["55","65","45","50"], answer:"55"}
+  ];
+
+  let currentQuiz = 0, score=0;
+  const quizContainer = document.getElementById('quiz-container');
+  const quizResult = document.getElementById('quiz-result');
+
+  function loadQuiz(){
+    quizContainer.innerHTML = "";
+    if(currentQuiz >= quizQuestions.length){
+      quizResult.textContent = `Quiz Completed! Your Score: ${score} / ${quizQuestions.length}`;
+      return;
+    }
+    const qObj = quizQuestions[currentQuiz];
+    const qEl = document.createElement('p'); qEl.textContent = `Q${currentQuiz+1}: ${qObj.q}`;
+    quizContainer.appendChild(qEl);
+    qObj.options.forEach(opt=>{
+      const btn = document.createElement('div');
+      btn.textContent = opt;
+      btn.className="quiz-option";
+      btn.onclick = ()=>{ if(opt===qObj.answer){score++;} currentQuiz++; loadQuiz();}
+      quizContainer.appendChild(btn);
+    });
+  }
+
+  // ----- Resume Section -----
+  const resumeTemplates = [
+    {title:"Resume Template 1", url:"https://www.overleaf.com/gallery/tagged/resume"},
+    {title:"Resume Template 2", url:"https://www.canva.com/resumes/templates/"},
+    {title:"Resume Template 3", url:"https://enhancv.com/resume-examples/"},
+    {title:"Resume Template 4", url:"https://zety.com/resume-builder"},
+    {title:"Resume Template 5", url:"https://novoresume.com/resume-builder"},
+    {title:"Resume Template 6", url:"https://resume.io/resume-examples"},
+    {title:"Resume Template 7", url:"https://kickresume.com/resume-examples"},
+    {title:"Resume Template 8", url:"https://visualcv.com/resume-templates/"},
+    {title:"Resume Template 9", url:"https://resumegenius.com/resume-examples"},
+    {title:"Resume Template 10", url:"https://myperfectresume.com/resume-examples"},
+    {title:"Resume Template 11", url:"https://enhancv.com/resume-examples/"},
+    {title:"Resume Template 12", url:"https://zety.com/resume-builder"},
+    {title:"Resume Template 13", url:"https://novoresume.com/resume-builder"},
+    {title:"Resume Template 14", url:"https://kickresume.com/resume-examples"},
+    {title:"Resume Template 15", url:"https://canva.com/resumes/templates/"},
+    {title:"Resume Template 16", url:"https://resume.io/resume-examples"},
+    {title:"Resume Template 17", url:"https://visualcv.com/resume-templates/"},
+    {title:"Resume Template 18", url:"https://resumegenius.com/resume-examples"},
+    {title:"Resume Template 19", url:"https://myperfectresume.com/resume-examples"},
+    {title:"Resume Template 20", url:"https://overleaf.com/gallery/tagged/resume"}
+  ];
+
+  const resumeList = document.getElementById('resume-list');
+  resumeTemplates.forEach(r=>{
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href=r.url; a.target="_blank"; a.textContent=r.title; a.style.color="#ff9933";
+    li.appendChild(a);
+    resumeList.appendChild(li);
+  });
+
+  // ----- Navigation Functions -----
+  function showSection(sectionId){
+    document.getElementById('main-options').style.display='none';
+    document.querySelector('.summary').style.display='none';
+    document.getElementById(sectionId).style.display='block';
+    if(sectionId==='quiz'){ currentQuiz=0; score=0; quizResult.textContent=""; loadQuiz(); }
+  }
+
+  function goBack(){
+    document.getElementById('main-options').style.display='grid';
+    document.querySelector('.summary').style.display='block';
+    document.querySelectorAll('.content-section').forEach(sec=>sec.style.display='none');
+  }
+</script>
+
+</body>
+</html>
