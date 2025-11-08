@@ -37,7 +37,6 @@
     margin-bottom:60px;
   }
 
-  /* STATISTICS BOXES */
   .stats {
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
@@ -57,18 +56,9 @@
     box-shadow:0 0 15px #cc33ff;
     transform:translateY(-5px);
   }
-  .stat-card h3 {
-    font-size:18px;
-    color:#ccc;
-    margin-bottom:8px;
-  }
-  .stat-card p {
-    font-size:22px;
-    color:#00ffb3;
-    font-weight:600;
-  }
+  .stat-card h3 {font-size:18px;color:#ccc;margin-bottom:8px;}
+  .stat-card p {font-size:22px;color:#00ffb3;font-weight:600;}
 
-  /* COMPANY GRID */
   .section-title {
     text-align:center;
     font-size:1.8rem;
@@ -100,27 +90,31 @@
     transition:0.4s;
     z-index:0;
   }
-  .company-card:hover::before {
-    opacity:0.15;
-  }
+  .company-card:hover::before {opacity:0.15;}
   .company-card:hover {
     border-color:#cc33ff;
     box-shadow:0 0 20px #cc33ff;
     transform:translateY(-5px);
   }
-  .company-card h4 {
-    color:#ffcc00;
-    font-size:20px;
-    margin-bottom:10px;
-    position:relative;
-    z-index:1;
+  .company-card h4 {color:#ffcc00;font-size:20px;margin-bottom:10px;position:relative;z-index:1;}
+  .company-card p {color:#ddd;font-size:15px;margin-bottom:5px;position:relative;z-index:1;}
+
+  .back-btn {
+    display:inline-block;
+    margin:30px auto;
+    background:linear-gradient(135deg,#1a73e8,#4dabf7);
+    color:#fff;
+    padding:12px 28px;
+    border:none;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:600;
+    text-decoration:none;
+    transition:0.3s;
   }
-  .company-card p {
-    color:#ddd;
-    font-size:15px;
-    margin-bottom:5px;
-    position:relative;
-    z-index:1;
+  .back-btn:hover {
+    transform:translateY(-3px);
+    box-shadow:0 0 20px #1a73e8;
   }
 
   footer {
@@ -135,7 +129,6 @@
   <h1>Coming Company Status</h1>
   <div class="container">
 
-    <!-- PLACEMENT STATISTICS -->
     <div class="stats">
       <div class="stat-card">
         <h3>Total Companies</h3>
@@ -155,7 +148,6 @@
       </div>
     </div>
 
-    <!-- UPCOMING COMPANIES -->
     <h2 class="section-title">Upcoming Companies</h2>
     <div class="company-grid">
       <div class="company-card">
@@ -174,7 +166,6 @@
       </div>
     </div>
 
-    <!-- VISITED COMPANIES -->
     <h2 class="section-title">Companies Already Visited</h2>
     <div class="company-grid">
       <div class="company-card">
@@ -192,6 +183,8 @@
         <p><strong>Students Placed:</strong> 12</p>
       </div>
     </div>
+
+    <a href="index1.html" class="back-btn">⬅ Back to Dashboard</a>
 
     <footer>© 2025 Placement Cell | All Rights Reserved</footer>
   </div>
