@@ -1,144 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Select Your Year | Placement Prep</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Poppins", sans-serif;
-    }
-
-    body {
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: url("https://www.admissionlelo.in/upload/1555574153campus%203.jpg") 
-        center center / cover no-repeat fixed;
-      overflow: hidden;
-      position: relative;
-      color: #fff;
-    }
-
-    body::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.75);
-      z-index: -1;
-    }
-
-    .container {
-      text-align: center;
-      background: rgba(22, 27, 34, 0.85);
-      padding: 50px 70px;
-      border-radius: 25px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
-      animation: fadeIn 1s ease;
-    }
-
-    h1 {
-      font-size: 35px;
-      color: #1a73e8;
-      margin-bottom: 10px;
-    }
-
-    p {
-      font-size: 16px;
-      color: #ccc;
-      margin-bottom: 40px;
-    }
-
-    .year-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 200px);
-      gap: 30px;
-      justify-content: center;
-    }
-
-    .year-card {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 20px;
-      padding: 25px;
-      cursor: pointer;
-      transition: all 0.4s ease;
-      font-size: 18px;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      color: #fff;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .year-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(45deg, #1a73e8, #00ffae);
-      opacity: 0;
-      transition: 0.4s ease;
-      z-index: 0;
-    }
-
-    .year-card:hover::before {
-      opacity: 0.25;
-    }
-
-    .year-card span {
-      position: relative;
-      z-index: 1;
-    }
-
-    .year-card:hover {
-      transform: translateY(-6px) scale(1.05);
-      border-color: #1a73e8;
-      box-shadow: 0 0 20px rgba(26, 115, 232, 0.6);
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .footer {
-      margin-top: 30px;
-      font-size: 13px;
-      color: #888;
-    }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>2nd Year - Topics | Placement Prep</title>
+<style>
+  body { font-family:'Poppins',sans-serif; margin:0; padding:0; background:url("https://www.admissionlelo.in/upload/1555574153campus%203.jpg") center/cover no-repeat fixed; color:#fff; min-height:100vh;}
+  body::before { content:""; position:absolute; inset:0; background: rgba(0,0,0,0.75); z-index:-1;}
+  .container { max-width:1000px; margin:auto; padding:50px 20px;}
+  h1 { text-align:center; color:#00bfff; font-size:2.5rem; margin-bottom:20px; text-shadow:0 0 10px #00bfff;}
+  .tabs { display:flex; justify-content:center; margin-bottom:30px; flex-wrap:wrap;}
+  .tab-btn { background:linear-gradient(135deg,#4caf50,#81c784); color:#fff; border:none; padding:12px 25px; margin:5px; border-radius:10px; cursor:pointer; font-weight:600; transition:0.3s;}
+  .tab-btn.active, .tab-btn:hover { box-shadow:0 0 20px #fff; transform:translateY(-2px);}
+  .content { display:none; background: rgba(255,255,255,0.08); padding:25px; border-radius:15px; margin-bottom:50px;}
+  .content pre { background: rgba(0,0,0,0.5); padding:15px; border-radius:10px; overflow-x:auto; color:#e6f7ff;}
+  #backBtn { display:block; margin:auto; padding:10px 25px; border:none; border-radius:10px; background:linear-gradient(135deg,#ff5722,#ff9800); color:#fff; font-weight:600; cursor:pointer; transition:0.3s;}
+  #backBtn:hover { transform:translateY(-2px); box-shadow:0 5px 15px rgba(255,255,255,0.5);}
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>Choose Your Year</h1>
-    <p>Select your current year to explore recommended programming exercises.</p>
-
-    <div class="year-grid">
-      <div class="year-card" onclick="openPrograms('1st')"><span>1st Year</span></div>
-      <div class="year-card" onclick="openPrograms('2nd')"><span>2nd Year</span></div>
-      <div class="year-card" onclick="openPrograms('3rd')"><span>3rd Year</span></div>
-      <div class="year-card" onclick="openPrograms('4th')"><span>4th Year</span></div>
-    </div>
-
-    <div class="footer">© 2025 Placement Prep | Built for Campus Students</div>
+<div class="container">
+  <h1>2nd Year - Topics</h1>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="openTab('dsa', this)">DSA</button>
+    <button class="tab-btn" onclick="openTab('c', this)">C Programming</button>
+    <button class="tab-btn" onclick="openTab('aptitude', this)">Aptitude</button>
   </div>
 
-  <script>
-    function openPrograms(year) {
-      
-      window.open(`${year.toLowerCase()}_year_programs.html`, "_blank");
-    }
-  </script>
+  <div id="dsa" class="content" style="display:block;">
+    <h2>DSA Exercises - 2nd Year</h2>
+    <pre>
+// Example: Factorial using recursion
+#include <stdio.h>
+int fact(int n){ return n<=1?1:n*fact(n-1);}
+int main(){ printf("%d",fact(5)); return 0;}
+    </pre>
+  </div>
+
+  <div id="c" class="content">
+    <h2>C Programming Exercises - 2nd Year</h2>
+    <pre>
+// Example: Array sum
+#include <stdio.h>
+int main(){ int arr[]={1,2,3,4,5}, sum=0; for(int i=0;i<5;i++) sum+=arr[i]; printf("%d",sum); return 0;}
+    </pre>
+  </div>
+
+  <div id="aptitude" class="content">
+    <h2>Aptitude Exercises - 2nd Year</h2>
+    <pre>Problem: Find LCM of 12 and 18. Solution: LCM = 36</pre>
+  </div>
+
+  <button id="backBtn" onclick="goBack()">⬅ Back to Track Your Year</button>
+</div>
+
+<script>
+function openTab(id, btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.content').forEach(c=>c.style.display='none');
+  document.getElementById(id).style.display='block';
+}
+function goBack(){ window.location.href='index2.html'; }
+</script>
 </body>
 </html>
