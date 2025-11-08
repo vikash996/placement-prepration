@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Professional Coding Quiz - Back Button</title>
+<title>Professional Coding Quiz</title>
 <style>
 body {
   font-family: 'Segoe UI', Arial, sans-serif;
@@ -33,13 +33,29 @@ textarea { width:100%; height:100px; padding:10px; border-radius:10px; border:no
 .progress { height:100%; width:0%; background:#4caf50; border-radius:10px; transition: width 0.4s;}
 .wrong-topic { background: rgba(255,0,0,0.35); margin:5px 0; padding:10px; border-radius:8px;}
 .note { font-size:0.95rem; color:#fff9; margin-top:6px; text-align:center;}
+.back-home {
+  display:inline-block;
+  margin-top:25px;
+  background:linear-gradient(135deg,#1a73e8,#4dabf7);
+  color:#fff;
+  padding:12px 30px;
+  border:none;
+  border-radius:10px;
+  font-size:16px;
+  font-weight:600;
+  text-decoration:none;
+  transition:0.3s;
+}
+.back-home:hover {
+  transform:translateY(-3px);
+  box-shadow:0 0 20px #1a73e8;
+}
 </style>
 </head>
 <body>
 <div class="container">
 <h1>Professional Coding Quiz</h1>
 
-<!-- Tabs -->
 <div id="tabs" style="text-align:center; margin-bottom:14px;">
   <button class="tab-btn active" onclick="selectTab('1-5', this)">1 - 5 LPA</button>
   <button class="tab-btn" onclick="selectTab('5-10', this)">5 - 10 LPA</button>
@@ -48,7 +64,6 @@ textarea { width:100%; height:100px; padding:10px; border-radius:10px; border:no
 
 <div class="note">Please answer using Java or C where code is required. Click a tab to start the quiz immediately.</div>
 
-<!-- Quiz Section -->
 <div class="quiz">
   <div class="progress-bar"><div class="progress" id="progress"></div></div>
   <div class="quiz-card">
@@ -65,7 +80,6 @@ textarea { width:100%; height:100px; padding:10px; border-radius:10px; border:no
   </div>
 </div>
 
-<!-- Result Section -->
 <div class="result">
   <h2>Score: <span id="score"></span></h2>
   <h3>Improve these topics:</h3>
@@ -73,15 +87,19 @@ textarea { width:100%; height:100px; padding:10px; border-radius:10px; border:no
   <button class="submit-btn" onclick="restartQuiz()">Restart</button>
   <button id="backBtnResult" class="submit-btn" onclick="goBack()">Back</button>
 </div>
+
+<!-- Back to Dashboard -->
+<div style="text-align:center;">
+  <a href="index1.html" class="back-home">⬅ Back to Dashboard</a>
+</div>
+
 </div>
 
 <script>
-/* Minimal quiz data to demonstrate behavior. Replace or expand arrays as needed. */
 function makeQA(question, code, answer, topic){
   return {question, code, answer: String(answer).trim(), topic};
 }
 
-/* Example: 1-5 has a few items for demo; replace with your full arrays */
 const q1to5 = [
   makeQA("Print Hello World", `public class Main {\n  public static void main(String[] args){\n    System.out.println("Hello World");\n  }\n}`, "Hello World", "Java/Basic"),
   makeQA("Sum two numbers output", `int a=5,b=3;\nSystem.out.println(a+b);`, "8", "Arrays/Basic"),
@@ -96,11 +114,7 @@ const q12plus = [
   makeQA("Describe MVCC in DBMS", "", "Multiple versions for concurrency", "DBMS-Advance")
 ];
 
-const quizData = {
-  "1-5": q1to5,
-  "5-10": q5to10,
-  "12+": q12plus
-};
+const quizData = {"1-5": q1to5, "5-10": q5to10, "12+": q12plus};
 
 let currentQuiz=[], currentIndex=0, score=0, wrongTopicsArr=[];
 const questionTitle=document.getElementById('questionTitle');
@@ -111,126 +125,69 @@ const progressEl=document.getElementById('progress');
 const tabsEl = document.getElementById('tabs');
 
 function selectTab(tab, sender){
-  // highlight active tab
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   sender.classList.add('active');
-
-  // initialize quiz for selected tab and immediately show quiz
   currentQuiz = quizData[tab] ? quizData[tab].slice() : [];
-  currentIndex = 0;
-  score = 0;
-  wrongTopicsArr = [];
-  if(currentQuiz.length === 0){
-    alert('No questions defined for this tab yet.');
-    return;
-  }
-
-  // hide tabs and show quiz
+  currentIndex = 0; score = 0; wrongTopicsArr = [];
+  if(currentQuiz.length === 0){ alert('No questions defined for this tab yet.'); return; }
   tabsEl.style.display = 'none';
   document.querySelector('.note').style.display = 'none';
   document.querySelector('.quiz').style.display = 'block';
   document.querySelector('.result').style.display = 'none';
-
-  showQuestion();
-  updateProgress();
+  showQuestion(); updateProgress();
 }
 
 function showQuestion(){
   const q = currentQuiz[currentIndex];
   questionTitle.innerText = `Q${currentIndex+1}: ${q.question} (Topic: ${q.topic})`;
   questionCode.innerText = q.code || "// No code snippet for this question";
-  userAnswer.value = '';
-  feedback.innerText = '';
-  document.getElementById('nextBtn').style.display='none';
+  userAnswer.value = ''; feedback.innerText = ''; document.getElementById('nextBtn').style.display='none';
 }
 
-function normalizeAnswer(s){
-  return String(s||'').trim().replace(/\s+/g,' ').toLowerCase();
-}
+function normalizeAnswer(s){ return String(s||'').trim().replace(/\s+/g,' ').toLowerCase(); }
 
 function checkAnswer(){
   const q = currentQuiz[currentIndex];
   const given = normalizeAnswer(userAnswer.value);
   const expected = normalizeAnswer(q.answer);
-
-  // simple matching logic: exact match or contains expected token
   let correct = false;
-  if(expected.length === 0){
-    correct = given.length > 0; // accept any non-empty answer if no expected answer provided
-  } else if(given === expected || given.includes(expected) || expected.includes(given)){
-    correct = true;
-  }
-
-  if(correct){
-    feedback.style.color = 'lime';
-    feedback.innerText = '✅ Correct';
-    score++;
-  } else {
-    feedback.style.color = 'salmon';
-    feedback.innerText = '❌ Incorrect';
-    if(!wrongTopicsArr.includes(q.topic)) wrongTopicsArr.push(q.topic);
-  }
+  if(expected.length === 0){ correct = given.length > 0; }
+  else if(given === expected || given.includes(expected) || expected.includes(given)){ correct = true; }
+  if(correct){ feedback.style.color='lime'; feedback.innerText='✅ Correct'; score++; }
+  else { feedback.style.color='salmon'; feedback.innerText='❌ Incorrect'; if(!wrongTopicsArr.includes(q.topic)) wrongTopicsArr.push(q.topic); }
   document.getElementById('nextBtn').style.display='inline-block';
 }
 
-function nextQuestion(){
-  currentIndex++;
-  if(currentIndex < currentQuiz.length){
-    showQuestion();
-    updateProgress();
-  } else {
-    showResult();
-  }
-}
+function nextQuestion(){ currentIndex++; if(currentIndex < currentQuiz.length){ showQuestion(); updateProgress(); } else { showResult(); } }
 
-function updateProgress(){
-  const pct = Math.round((currentIndex/currentQuiz.length)*100);
-  progressEl.style.width = pct + '%';
-}
+function updateProgress(){ const pct = Math.round((currentIndex/currentQuiz.length)*100); progressEl.style.width = pct + '%'; }
 
 function showResult(){
-  document.querySelector('.quiz').style.display = 'none';
-  document.querySelector('.result').style.display = 'block';
+  document.querySelector('.quiz').style.display='none';
+  document.querySelector('.result').style.display='block';
   document.getElementById('score').innerText = score + '/' + currentQuiz.length;
-  const wrongDiv = document.getElementById('wrongTopics');
-  wrongDiv.innerHTML = '';
-  if(wrongTopicsArr.length === 0){
-    wrongDiv.innerHTML = "<p style='color:#d4ffd4'>No topics to improve. Great job!</p>";
-  } else {
-    wrongTopicsArr.forEach(topic=>{
-      const div = document.createElement('div');
-      div.className = 'wrong-topic';
-      div.innerText = topic;
-      wrongDiv.appendChild(div);
-    });
-  }
+  const wrongDiv=document.getElementById('wrongTopics'); wrongDiv.innerHTML='';
+  if(wrongTopicsArr.length===0){ wrongDiv.innerHTML="<p style='color:#d4ffd4'>No topics to improve. Great job!</p>"; }
+  else { wrongTopicsArr.forEach(topic=>{ const div=document.createElement('div'); div.className='wrong-topic'; div.innerText=topic; wrongDiv.appendChild(div); }); }
 }
 
 function restartQuiz(){
-  // restart current quiz from beginning, keep tabs hidden
-  currentIndex = 0; score = 0; wrongTopicsArr = [];
-  document.querySelector('.result').style.display = 'none';
-  document.querySelector('.quiz').style.display = 'block';
-  showQuestion();
-  updateProgress();
+  currentIndex=0; score=0; wrongTopicsArr=[];
+  document.querySelector('.result').style.display='none';
+  document.querySelector('.quiz').style.display='block';
+  showQuestion(); updateProgress();
 }
 
 function goBack(){
-  // go back to tabs view, reset quiz state
-  document.querySelector('.quiz').style.display = 'none';
-  document.querySelector('.result').style.display = 'none';
-  tabsEl.style.display = 'block';
-  document.querySelector('.note').style.display = 'block';
-  // reset active tab highlight (optional)
+  document.querySelector('.quiz').style.display='none';
+  document.querySelector('.result').style.display='none';
+  tabsEl.style.display='block';
+  document.querySelector('.note').style.display='block';
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  // show default first tab as active visually
   document.querySelectorAll('.tab-btn')[0].classList.add('active');
-  currentQuiz = []; currentIndex = 0; score = 0; wrongTopicsArr = [];
-  progressEl.style.width = '0%';
+  currentQuiz=[]; currentIndex=0; score=0; wrongTopicsArr=[];
+  progressEl.style.width='0%';
 }
-
-/* Start with tabs visible; do not auto-start quiz. If you want to auto-start 1-5 on load, uncomment the line below */
-// window.addEventListener('load', ()=>{ document.querySelectorAll('.tab-btn')[0].click(); });
 </script>
 </body>
 </html>
