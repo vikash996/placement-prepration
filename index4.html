@@ -1,309 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>1st Year Programs | Placement Prep</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Poppins", sans-serif;
-    }
-
-    body {
-      min-height: 100vh;
-      background: url("https://www.admissionlelo.in/upload/1555574153campus%203.jpg")
-        center center / cover no-repeat fixed;
-      position: relative;
-      color: #fff;
-      overflow-x: hidden;
-    }
-
-    body::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.75);
-      z-index: -1;
-    }
-
-    .container {
-      max-width: 1000px;
-      margin: 60px auto;
-      background: rgba(22, 27, 34, 0.85);
-      border-radius: 20px;
-      padding: 40px 60px;
-      box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(12px);
-      animation: fadeIn 1s ease;
-    }
-
-    h1 {
-      text-align: center;
-      color: #1a73e8;
-      font-size: 32px;
-      margin-bottom: 15px;
-    }
-
-    p {
-      text-align: center;
-      color: #ccc;
-      margin-bottom: 40px;
-      font-size: 16px;
-    }
-
-    .program-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 25px;
-    }
-
-    .program-card {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 15px;
-      padding: 20px;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.4s ease;
-    }
-
-    .program-card:hover {
-      transform: translateY(-6px) scale(1.02);
-      box-shadow: 0 0 20px rgba(26, 115, 232, 0.6);
-      border-color: #1a73e8;
-    }
-
-    .program-title {
-      font-size: 17px;
-      font-weight: 600;
-      color: #fff;
-      margin-bottom: 10px;
-    }
-
-    .program-code {
-      display: none;
-      background: #0f172a;
-      border-radius: 10px;
-      color: #00ffae;
-      font-family: monospace;
-      font-size: 14px;
-      padding: 15px;
-      margin-top: 10px;
-      white-space: pre-wrap;
-      border: 1px solid #1a73e8;
-      animation: fadeIn 0.5s ease;
-    }
-
-    .program-card.open .program-code {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .back-btn {
-      display: inline-block;
-      margin-top: 40px;
-      background: transparent;
-      border: 1px solid #1a73e8;
-      color: #1a73e8;
-      padding: 10px 25px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: all 0.3s ease;
-    }
-
-    .back-btn:hover {
-      background: #1a73e8;
-      color: #fff;
-      transform: scale(1.05);
-    }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>3rd Year - Topics | Placement Prep</title>
+<style>
+  body { font-family:'Poppins',sans-serif; margin:0; padding:0; background:url("https://www.admissionlelo.in/upload/1555574153campus%203.jpg") center/cover no-repeat fixed; color:#fff; min-height:100vh;}
+  body::before { content:""; position:absolute; inset:0; background: rgba(0,0,0,0.75); z-index:-1;}
+  .container { max-width:1000px; margin:auto; padding:50px 20px;}
+  h1 { text-align:center; color:#00bfff; font-size:2.5rem; margin-bottom:20px; text-shadow:0 0 10px #00bfff;}
+  .tabs { display:flex; justify-content:center; margin-bottom:30px; flex-wrap:wrap;}
+  .tab-btn { background:linear-gradient(135deg,#4caf50,#81c784); color:#fff; border:none; padding:12px 25px; margin:5px; border-radius:10px; cursor:pointer; font-weight:600; transition:0.3s;}
+  .tab-btn.active, .tab-btn:hover { box-shadow:0 0 20px #fff; transform:translateY(-2px);}
+  .content { display:none; background: rgba(255,255,255,0.08); padding:25px; border-radius:15px; margin-bottom:50px;}
+  .content pre { background: rgba(0,0,0,0.5); padding:15px; border-radius:10px; overflow-x:auto; color:#e6f7ff;}
+  #backBtn { display:block; margin:auto; padding:10px 25px; border:none; border-radius:10px; background:linear-gradient(135deg,#ff5722,#ff9800); color:#fff; font-weight:600; cursor:pointer; transition:0.3s;}
+  #backBtn:hover { transform:translateY(-2px); box-shadow:0 5px 15px rgba(255,255,255,0.5);}
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>1st Year Programs</h1>
-    <p>If you are in 1st year, you should try these 20 basic programming exercises.</p>
-
-    <div class="program-list" id="programList"></div>
-
-    <div style="text-align: center;">
-      <a href="year_selection.html" class="back-btn">← Back to Year Selection</a>
-    </div>
+<div class="container">
+  <h1>3rd Year - Topics</h1>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="openTab('dsa', this)">DSA</button>
+    <button class="tab-btn" onclick="openTab('c', this)">C Programming</button>
+    <button class="tab-btn" onclick="openTab('aptitude', this)">Aptitude</button>
   </div>
 
-  <script>
-    // 1st Year Programs (you can change for each year)
-    const programs = [
-      {
-        title: "1️⃣ Print 'Hello World'",
-        code: `#include <stdio.h>
-int main() {
-    printf("Hello, World!");
-    return 0;
-}`
-      },
-      {
-        title: "2️⃣ Find Sum of Two Numbers",
-        code: `#include <stdio.h>
-int main() {
-    int a, b, sum;
-    printf("Enter two numbers: ");
-    scanf("%d %d", &a, &b);
-    sum = a + b;
-    printf("Sum = %d", sum);
-    return 0;
-}`
-      },
-      {
-        title: "3️⃣ Check Even or Odd",
-        code: `#include <stdio.h>
-int main() {
-    int n;
-    printf("Enter a number: ");
-    scanf("%d", &n);
-    if(n % 2 == 0)
-        printf("Even");
-    else
-        printf("Odd");
-    return 0;
-}`
-      },
-      {
-        title: "4️⃣ Find Largest Among Three Numbers",
-        code: `#include <stdio.h>
-int main() {
-    int a, b, c;
-    printf("Enter three numbers: ");
-    scanf("%d %d %d", &a, &b, &c);
-    if(a >= b && a >= c)
-        printf("%d is largest", a);
-    else if(b >= a && b >= c)
-        printf("%d is largest", b);
-    else
-        printf("%d is largest", c);
-    return 0;
-}`
-      },
-      {
-        title: "5️⃣ Check Leap Year",
-        code: `#include <stdio.h>
-int main() {
-    int year;
-    printf("Enter a year: ");
-    scanf("%d", &year);
-    if((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0))
-        printf("%d is a leap year", year);
-    else
-        printf("%d is not a leap year", year);
-    return 0;
-}`
-      },
-      {
-        title: "6️⃣ Find Factorial of a Number",
-        code: `#include <stdio.h>
-int main() {
-    int n, i, fact = 1;
-    printf("Enter a number: ");
-    scanf("%d", &n);
-    for(i = 1; i <= n; i++)
-        fact *= i;
-    printf("Factorial = %d", fact);
-    return 0;
-}`
-      },
-      {
-        title: "7️⃣ Generate Fibonacci Series",
-        code: `#include <stdio.h>
-int main() {
-    int n, t1 = 0, t2 = 1, next;
-    printf("Enter number of terms: ");
-    scanf("%d", &n);
-    for(int i = 1; i <= n; ++i) {
-        printf("%d ", t1);
-        next = t1 + t2;
-        t1 = t2;
-        t2 = next;
-    }
-    return 0;
-}`
-      },
-      {
-        title: "8️⃣ Reverse a Number",
-        code: `#include <stdio.h>
-int main() {
-    int n, reversed = 0;
-    printf("Enter a number: ");
-    scanf("%d", &n);
-    while(n != 0) {
-        reversed = reversed * 10 + n % 10;
-        n /= 10;
-    }
-    printf("Reversed = %d", reversed);
-    return 0;
-}`
-      },
-      {
-        title: "9️⃣ Check Palindrome Number",
-        code: `#include <stdio.h>
-int main() {
-    int n, temp, reversed = 0;
-    printf("Enter a number: ");
-    scanf("%d", &n);
-    temp = n;
-    while(temp != 0) {
-        reversed = reversed * 10 + temp % 10;
-        temp /= 10;
-    }
-    if(n == reversed)
-        printf("Palindrome");
-    else
-        printf("Not Palindrome");
-    return 0;
-}`
-      },
-      {
-        title: "🔟 Find Sum of Digits",
-        code: `#include <stdio.h>
-int main() {
-    int n, sum = 0;
-    printf("Enter a number: ");
-    scanf("%d", &n);
-    while(n != 0) {
-        sum += n % 10;
-        n /= 10;
-    }
-    printf("Sum of digits = %d", sum);
-    return 0;
-}`
-      }
-    ];
+  <div id="dsa" class="content" style="display:block;">
+    <h2>DSA Exercises - 3rd Year</h2>
+    <pre>
+// Example: Binary Search
+#include <stdio.h>
+int main(){ int arr[]={1,3,5,7,9}, key=5, low=0, high=4, mid;
+while(low<=high){ mid=(low+high)/2; if(arr[mid]==key){ printf("Found"); break;} else if(arr[mid]<key) low=mid+1; else high=mid-1;} return 0;}
+    </pre>
+  </div>
 
-    // Render programs
-    const list = document.getElementById("programList");
-    programs.forEach((prog) => {
-      const card = document.createElement("div");
-      card.className = "program-card";
-      card.innerHTML = `
-        <div class="program-title">${prog.title}</div>
-        <div class="program-code">${prog.code}</div>
-      `;
-      card.onclick = () => card.classList.toggle("open");
-      list.appendChild(card);
-    });
-  </script>
+  <div id="c" class="content">
+    <h2>C Programming Exercises - 3rd Year</h2>
+    <pre>
+// Example: Pointer basics
+#include <stdio.h>
+int main(){ int a=10; int *p=&a; printf("%d",*p); return 0;}
+    </pre>
+  </div>
+
+  <div id="aptitude" class="content">
+    <h2>Aptitude Exercises - 3rd Year</h2>
+    <pre>Problem: Solve 3x+5=20. Solution: x=5</pre>
+  </div>
+
+  <button id="backBtn" onclick="goBack()">⬅ Back to Track Your Year</button>
+</div>
+
+<script>
+function openTab(id, btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.content').forEach(c=>c.style.display='none');
+  document.getElementById(id).style.display='block';
+}
+function goBack(){ window.location.href='index2.html'; }
+</script>
 </body>
 </html>
