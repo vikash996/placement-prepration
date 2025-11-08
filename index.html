@@ -1,105 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GLA Placement Preparation</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GLA Placement Portal | Login</title>
   <style>
-    * {
-      margin: 0; padding: 0;
-      box-sizing: border-box;
-      font-family: "Poppins", sans-serif;
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:'Poppins',sans-serif;
     }
-
-    body {
-      min-height: 100vh;
-      background: url("https://www.admissionlelo.in/upload/1555574153campus%203.jpg") center/cover no-repeat fixed;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
+    body{
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background:url("https://www.admissionlelo.in/upload/1555574153campus%203.jpg") center/cover no-repeat;
+      position:relative;
+      color:#fff;
     }
-
-    body::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.7);
-      z-index: -1;
+    body::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:rgba(0,0,0,0.7);
+      z-index:-1;
     }
-
-    .container {
-      background: rgba(0, 0, 0, 0.75);
-      padding: 40px;
-      border-radius: 20px;
-      width: 90%;
-      max-width: 900px;
-      box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
-      text-align: center;
+    .login-box{
+      background:rgba(255,255,255,0.08);
+      border:1px solid rgba(255,255,255,0.2);
+      padding:40px 50px;
+      border-radius:20px;
+      text-align:center;
+      box-shadow:0 0 20px rgba(0,0,0,0.6);
     }
-
-    h1 {
-      color: #00e6ff;
-      font-size: 2.2rem;
-      margin-bottom: 15px;
-      text-shadow: 0 0 12px #00e6ff;
+    h1{
+      font-size:32px;
+      color:#1a73e8;
+      margin-bottom:20px;
     }
-
-    p {
-      font-size: 1.1rem;
-      color: #ccc;
-      margin-bottom: 30px;
+    input{
+      width:100%;
+      padding:12px;
+      margin:10px 0;
+      border:none;
+      outline:none;
+      border-radius:8px;
+      background:rgba(255,255,255,0.1);
+      color:#fff;
+      font-size:16px;
     }
-
-    .btn-grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
+    input::placeholder{
+      color:#ccc;
     }
-
-    .btn {
-      padding: 14px 28px;
-      border: none;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #1a73e8, #4dabf7);
-      color: #fff;
-      font-weight: 600;
-      font-size: 1.05rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-decoration: none;
-      display: inline-block;
+    button{
+      width:100%;
+      padding:12px;
+      margin-top:10px;
+      border:none;
+      border-radius:8px;
+      background:#1a73e8;
+      color:#fff;
+      font-size:17px;
+      cursor:pointer;
+      transition:0.3s;
     }
-
-    .btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 0 20px #1a73e8;
+    button:hover{
+      background:#1557b0;
     }
-
-    footer {
-      margin-top: 30px;
-      color: #aaa;
-      font-size: 0.9rem;
+    p{
+      font-size:14px;
+      color:#ccc;
+      margin-top:15px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>GLA Placement Preparation Portal</h1>
-    <p>Select a section to start your preparation journey:</p>
-
-    <div class="btn-grid">
-      <a href="year.html" class="btn">Your Year</a>
-      <a href="quiz.html" class="btn">Coding Quiz</a>
-      <a href="company.html" class="btn">Company Status</a>
-      <a href="track.html" class="btn">Track Progress</a>
-    </div>
-
-    <footer>
-      <p>© 2025 GLA Placement | All Rights Reserved</p>
-      <a href="login.html" class="btn" style="margin-top:20px; background:#ff4444;">Logout</a>
-    </footer>
+  <div class="login-box">
+    <h1>GLA Placement Portal</h1>
+    <form onsubmit="login(event)">
+      <input type="text" placeholder="Username" required>
+      <input type="password" placeholder="Password" required>
+      <button type="submit">Login</button>
+    </form>
+    <p>© 2025 GLA University | Placement Prep Portal</p>
   </div>
+
+  <script>
+    function login(e){
+      e.preventDefault();
+      window.location.href = "index1.html";
+    }
+  </script>
 </body>
 </html>
