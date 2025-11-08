@@ -1,311 +1,534 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>GLA Placement Preparation</title>
-  <style>
-    :root {
-      --accent-blue: #00bfff;
-      --accent-purple: #8a2be2;
-      --accent-yellow: #ffd166;
-      --accent-green: #00fa9a;
-      --glass: rgba(255,255,255,0.08);
-      --bg-img: url("https://noida.gla.ac.in/placement/placementBanner.webp");
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>GLA Placement Portal — Single File App</title>
+<style>
+  :root {
+    --accent: #1a73e8;
+    --accent-2: #cc33ff;
+    --glass: rgba(255,255,255,0.08);
+    --bg: url("https://www.admissionlelo.in/upload/1555574153campus%203.jpg");
+    --duration: 420ms;
+  }
 
-    * { margin:0; padding:0; box-sizing:border-box; }
-    html, body { scroll-behavior: smooth; font-family: "Inter", sans-serif; }
-    body {
-      background: var(--bg-img) center/cover fixed no-repeat;
-      color: #fff;
-      position: relative;
-      overflow-x: hidden;
-    }
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.75);
-      z-index: -1;
-    }
+  /* reset */
+  *{box-sizing:border-box;margin:0;padding:0;font-family:"Poppins",sans-serif}
+  html,body,#app{height:100%}
+  body{
+    background:var(--bg) center/cover fixed no-repeat;
+    color:#fff;
+    overflow:hidden;
+    position:relative;
+  }
+  body::before{content:"";position:fixed;inset:0;background:rgba(0,0,0,0.72);z-index:-1;}
 
-    /* Navbar */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      height: 70px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 2rem;
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(8px);
-      z-index: 1000;
-    }
-    .logo {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--accent-blue);
-      text-shadow: 0 0 12px var(--accent-blue);
-    }
-    nav ul {
-      display: flex;
-      list-style: none;
-      gap: 2rem;
-    }
-    nav a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: 500;
-      transition: 0.3s;
-    }
-    nav a:hover { color: var(--accent-yellow); }
+  /* APP container */
+  #app{width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:relative}
 
-    /* Hero */
-    .hero {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 0 1rem;
-    }
-    .hero h1 {
-      font-size: 2.8rem;
-      text-shadow: 0 0 15px var(--accent-blue);
-      animation: glowText 2s ease-in-out infinite alternate;
-      margin-bottom: 1rem;
-    }
-    .hero p {
-      font-size: 1.2rem;
-      max-width: 700px;
-      margin: 0 auto 2rem;
-      color: #ddd;
-    }
+  /* page sections: full-screen panels */
+  .page{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:30px;
+    opacity:0;
+    pointer-events:none;
+    transform: translateX(0);
+  }
+  .page.active{opacity:1;pointer-events:auto}
 
-    @keyframes glowText {
-      from { text-shadow: 0 0 8px var(--accent-blue), 0 0 20px var(--accent-purple); }
-      to { text-shadow: 0 0 15px var(--accent-purple), 0 0 35px var(--accent-blue); }
-    }
+  /* animation helper classes */
+  .anim-transition{transition: transform var(--duration) ease, opacity var(--duration) ease;}
+  .enter-from-right{transform: translateX(30%); opacity:0;}
+  .enter-from-left{transform: translateX(-30%); opacity:0;}
+  .leave-to-left{transform: translateX(-30%); opacity:0;}
+  .leave-to-right{transform: translateX(30%); opacity:0;}
 
-    /* Glowing Boxes */
-    .box-container {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      perspective: 1000px;
-      flex-wrap: wrap;
-    }
-    .box {
-      width: 230px; height: 180px;
-      background: var(--glass);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 18px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      box-shadow: 0 0 15px rgba(0,191,255,0.25);
-      transition: transform 0.3s, box-shadow 0.3s;
-      cursor: pointer;
-      position: relative;
-    }
-    .box:nth-child(1):hover { transform: rotateY(10deg) scale(1.05); box-shadow: 0 0 25px var(--accent-yellow); }
-    .box:nth-child(2):hover { transform: rotateY(0deg) translateY(-10px) scale(1.05); box-shadow: 0 0 25px var(--accent-green); }
-    .box:nth-child(3):hover { transform: rotateY(-10deg) scale(1.05); box-shadow: 0 0 25px var(--accent-purple); }
+  /* common card style used by many sections */
+  .card{
+    width:100%;
+    max-width:1100px;
+    border-radius:18px;
+    padding:28px;
+    background: rgba(22,27,34,0.85);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+    border:1px solid rgba(255,255,255,0.04);
+  }
+  .center{text-align:center}
 
-    .box .title { font-size: 1.2rem; font-weight: 600; }
-    .box .cta {
-      margin-top: 0.5rem;
-      padding: 0.4rem 1rem;
-      background: var(--accent-blue);
-      color: #001;
-      border: none;
-      border-radius: 10px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .box .cta:hover { background: var(--accent-yellow); }
+  /* ---------- Login styles (kept from original) ---------- */
+  .login-wrap{display:flex;gap:18px;flex-wrap:wrap;align-items:stretch}
+  .login-left{flex:1;padding:36px;background:radial-gradient(circle at top left, rgba(26,115,232,0.7), rgba(15,17,23,0.9));border-radius:12px;color:#fff}
+  .login-left h1{font-size:30px;margin-bottom:6px}
+  .login-box{flex:1;background:rgba(255,255,255,0.95);color:#000;padding:34px;border-radius:12px;border-left:4px solid var(--accent)}
+  .login-box h2{color:var(--accent);margin-bottom:14px;text-align:center}
+  .login-box label{display:block;margin:10px 0 6px;font-weight:600;color:#333}
+  .login-box input, .login-box select{width:100%;padding:10px;border-radius:8px;border:1px solid #ccc;font-size:15px}
+  .login-box button{margin-top:12px;padding:10px 14px;border-radius:8px;border:0;background:var(--accent);color:#fff;font-weight:700;cursor:pointer}
 
-    /* Sections */
-    section {
-      padding: 6rem 2rem;
-      max-width: 1100px;
-      margin: auto;
-      text-align: center;
-    }
-    section h2 {
-      font-size: 2rem;
-      margin-bottom: 1.5rem;
-      text-shadow: 0 0 10px var(--accent-blue);
-      color: var(--accent-blue);
-    }
-    section:nth-of-type(2n) h2 { color: var(--accent-green); text-shadow: 0 0 10px var(--accent-green); }
-    section:nth-of-type(3n) h2 { color: var(--accent-yellow); text-shadow: 0 0 10px var(--accent-yellow); }
+  /* ---------- Home / GLA Preparation ---------- */
+  .hero { padding:36px 20px; display:flex;flex-direction:column;align-items:center;gap:12px}
+  .hero h1{font-size:30px;color:#66b3ff;text-shadow:0 0 10px #66b3ff}
+  .box-container{display:flex;gap:18px;justify-content:center;flex-wrap:wrap}
+  .box{width:220px;height:150px;background:var(--glass);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.06);cursor:pointer;transition:transform .25s,box-shadow .25s}
+  .box:hover{transform:translateY(-6px)}
+  .box .title{font-weight:700;margin-bottom:8px}
+  .box .cta{padding:8px 12px;border-radius:8px;border:0;background:var(--accent);color:#fff;cursor:pointer;font-weight:700}
 
-    section p, section li { color: #ddd; line-height: 1.8; font-size: 1.05rem; }
-    ul.feature-list { list-style: none; padding: 0; }
-    ul.feature-list li::before {
-      content: "✔ ";
-      color: var(--accent-yellow);
-    }
+  /* ---------- DSA list (tracks) ---------- */
+  .dsa-list{max-height:60vh;overflow:auto;padding:12px;border-radius:10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06)}
+  .dsa-item{padding:12px;border-radius:8px;margin:10px 0;background:transparent;transition:all .18s}
+  .dsa-item a{color:#fff;text-decoration:none}
+  .dsa-item:hover{transform:translateY(-4px);background:rgba(255,153,51,0.06);box-shadow:0 0 12px rgba(255,153,51,0.06)}
 
-    
-    .blog-preview, .stats {
-      background: rgba(255,255,255,0.05);
-      border-radius: 10px;
-      padding: 2rem;
-      margin-top: 2rem;
-    }
+  /* ---------- Year page ---------- */
+  .year-grid{display:grid;grid-template-columns:repeat(2,200px);gap:20px;justify-content:center}
+  .year-card{background:rgba(255,255,255,0.06);padding:18px;border-radius:12px;cursor:pointer;text-align:center;font-weight:700}
+  .program-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:18px}
+  .program-card{background:rgba(255,255,255,0.05);padding:12px;border-radius:10px;cursor:pointer}
+  .program-code{background:#0f172a;color:#00ffae;padding:10px;border-radius:8px;font-family:monospace;display:none;margin-top:8px}
+  .program-card.open .program-code{display:block}
 
-    /* Footer */
-    footer {
-      background: rgba(0,0,0,0.85);
-      padding: 2rem;
-      text-align: center;
-      font-size: 0.9rem;
-      color: #aaa;
-      border-top: 1px solid rgba(255,255,255,0.1);
-    }
-    footer a { color: var(--accent-blue); text-decoration: none; margin: 0 8px; }
-    footer a:hover { color: var(--accent-yellow); }
+  /* ---------- Quiz styles (kept) ---------- */
+  .quiz-wrap{max-width:900px;margin:0 auto}
+  .tabs{margin-bottom:10px;text-align:center}
+  .tab-btn{margin:6px;padding:8px 14px;border-radius:10px;border:0;background:linear-gradient(135deg,#4caf50,#81c784);color:#fff;cursor:pointer}
+  .quiz-card{background:rgba(255,255,255,0.06);padding:16px;border-radius:10px;margin-top:12px}
+  .quiz-card pre{background:rgba(0,0,0,0.5);padding:12px;border-radius:8px;overflow:auto;color:#e6f7ff}
+  textarea{width:100%;min-height:100px;margin-top:8px;padding:10px;border-radius:10px;border:none;font-family:monospace}
 
-    @media (max-width: 768px) {
-      .hero h1 { font-size: 2rem; }
-      .box-container { flex-direction: column; align-items: center; }
-    }
-  </style>
+  /* ---------- Company styles (kept) ---------- */
+  .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:18px}
+  .stat-card{background:rgba(255,255,255,0.08);padding:14px;border-radius:10px;text-align:center}
+  .company-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+  .company-card{background:rgba(255,255,255,0.06);padding:14px;border-radius:10px;position:relative}
+
+  /* small utilities */
+  .btn{display:inline-block;padding:10px 16px;border-radius:8px;background:var(--accent);color:#fff;text-decoration:none;border:0;cursor:pointer}
+  .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.12)}
+  .muted{color:#ccc}
+  .spacer{height:14px}
+
+  /* responsive */
+  @media (max-width:860px){
+    .year-grid{grid-template-columns:repeat(2,1fr)}
+    .box{width:160px;height:130px}
+  }
+</style>
 </head>
 <body>
+<div id="app">
 
-  <nav>
-    <div class="logo">GLA Prepration</div>
-    <ul>
-      <li><a href="#why">Why Us</a></li>
-      <li><a href="#features">Features</a></li>
-      <li><a href="#strategies">Strategies</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
+  <!-- PAGE: LOGIN -->
+  <section id="page-login" class="page active">
+    <div class="card login-wrap">
+      <div style="display:flex;gap:18px;flex-wrap:wrap">
+        <div class="login-left" style="min-width:260px">
+          <h1>GLA Placement</h1>
+          <p style="opacity:.92">Prepare smart. Crack interviews easily.</p>
+        </div>
 
-  <!-- HERO -->
-  <section class="hero">
-    <h1>🚀 Ace Your GLA Placements with Confidence!</h1>
-    <p>Get access to the best curated content, mock tests, interview questions, and more to crack your dream job from GLA University.</p>
-    <div class="box-container">
-      <div class="box" data-link="tracks.html">
-        <div class="title">Tracks</div><button class="cta">Go</button>
-      </div>
-      <div class="box" data-link="year.html">
-        <div class="title">Your Year</div><button class="cta">Go</button>
-      </div>
-      <div class="box" data-link="package.html">
-        <div class="title">Package Oriented</div><button class="cta">Go</button>
+        <div class="login-box" style="min-width:320px">
+          <h2>Login</h2>
+          <label for="role">Select Role:</label>
+          <select id="login-role">
+            <option>Student</option><option>Admin</option><option>Mentor</option>
+          </select>
+          <label for="username">Username:</label>
+          <input id="login-username" type="text" placeholder="Enter username">
+          <label for="password">Password:</label>
+          <input id="login-password" type="password" placeholder="Enter password">
+          <button id="btn-login" style="width:100%">Login</button>
+          <div class="spacer"></div>
+          <div style="text-align:center" class="muted">Forgot Password? | Sign Up</div>
+        </div>
       </div>
     </div>
   </section>
 
-  
-  <section id="why">
-    <h2>🔍 Why Choose Us?</h2>
-    <p>Our app is designed specifically for GLA University students, focusing on unique placement patterns, company preferences, and interview rounds.</p>
-    <ul class="feature-list">
-      <li>GLA-specific practice sets</li>
-      <li>Topic-wise interview questions</li>
-      <li>Peer leaderboards and tracking</li>
-      <li>Real-time test simulation</li>
-      <li>HR + Technical interview tips</li>
-      <li>Resume builder</li>
-    </ul>
+  <!-- PAGE: HOME / GLA PREPARATION -->
+  <section id="page-home" class="page">
+    <div class="card hero">
+      <h1>🚀 Ace Your GLA Placements with Confidence!</h1>
+      <p class="center muted">Get access to curated content, mock tests, interview questions and more.</p>
+
+      <div class="box-container">
+        <div class="box" data-target="page-tracks">
+          <div class="title">Tracks (DSA)</div>
+          <button class="cta">Open</button>
+        </div>
+        <div class="box" data-target="page-year">
+          <div class="title">Your Year</div>
+          <button class="cta">Open</button>
+        </div>
+        <div class="box" data-target="page-quiz">
+          <div class="title">Package Oriented</div>
+          <button class="cta">Open</button>
+        </div>
+        <div class="box" data-target="page-company">
+          <div class="title">Company Status</div>
+          <button class="cta">Open</button>
+        </div>
+      </div>
+
+      <div class="spacer"></div>
+      <div style="text-align:center">
+        <button class="btn ghost" id="logout-home">Logout</button>
+      </div>
+    </div>
   </section>
 
-  <!-- FEATURES -->
-  <section id="features">
-    <h2>✨ Features That Boost Your Success</h2>
-    <ul class="feature-list">
-      <li>🧠 Topic-wise MCQs on DSA, DBMS, OS, CN, Aptitude</li>
-      <li>📈 Mock Tests by TCS, Infosys, Wipro</li>
-      <li>💬 HR & Technical Interview Prep from GLA alumni</li>
-      <li>🎯 Resume Review & Builder</li>
-      <li>🏆 Leaderboard to track performance</li>
-      <li>📝 Notes & Quick Revision Sheets</li>
-    </ul>
+  <!-- PAGE: TRACKS / DSA -->
+  <section id="page-tracks" class="page">
+    <div class="card" style="padding:18px">
+      <h2 class="center" style="color:#ff9933">Top DSA Questions (Tracks)</h2>
+      <div class="dsa-list" id="dsaList"></div>
+
+      <div style="text-align:center;margin-top:14px">
+        <button class="btn ghost" data-back="page-home">← Back</button>
+        <button class="btn" data-target="page-year">Next →</button>
+      </div>
+    </div>
   </section>
 
- 
-  <section id="strategies">
-    <h2>💡 Smart Strategies for Cracking GLA Placements</h2>
-    <p>
-      Start Early: Prepare from 3rd year with Aptitude, DSA, Core Subjects.<br>
-      Make Projects: Showcase 1–2 strong ones on your resume.<br>
-      Join Clubs & Hackathons: Build teamwork & confidence.<br>
-      Use STAR Format: Situation, Task, Action, Result.<br>
-      Solve GLA Past Papers: 100+ verified questions from drives.
-    </p>
+  <!-- PAGE: YEAR -->
+  <section id="page-year" class="page">
+    <div class="card">
+      <h2 class="center" style="color:var(--accent)">Choose Your Year</h2>
+      <p class="center muted">Select your current year to explore exercises and projects.</p>
+
+      <div class="year-grid" id="yearGrid">
+        <div class="year-card" data-year="1">1st Year</div>
+        <div class="year-card" data-year="2">2nd Year</div>
+        <div class="year-card" data-year="3">3rd Year</div>
+        <div class="year-card" data-year="4">4th Year</div>
+      </div>
+
+      <div id="programHolder"></div>
+
+      <div style="text-align:center;margin-top:16px">
+        <button class="btn ghost" data-back="page-tracks">← Back</button>
+        <button class="btn" data-target="page-quiz">Next →</button>
+      </div>
+    </div>
   </section>
 
-  
-  <section>
-    <h2>🗣 What GLA Toppers Say About Us</h2>
-    <p>“This app helped me land an offer at TCS! The GLA-specific content and mocks were game-changers.” – <b>Anjali S., CSE 2024</b></p>
-    <p>“Loved the resume tips and interview guide. Simple yet powerful.” – <b>Harshit R., ECE 2023</b></p>
+  <!-- PAGE: QUIZ -->
+  <section id="page-quiz" class="page">
+    <div class="card quiz-wrap">
+      <h2 class="center">Professional Coding Quiz</h2>
+      <div class="tabs" id="quizTabs">
+        <button class="tab-btn" data-tab="1-5">1 - 5 LPA</button>
+        <button class="tab-btn" data-tab="5-10">5 - 10 LPA</button>
+        <button class="tab-btn" data-tab="12+">12+ LPA</button>
+      </div>
+
+      <div class="quiz-card">
+        <h3 id="quizTitle">Pick a difficulty</h3>
+        <pre id="quizCode">// Code will appear here</pre>
+        <textarea id="quizAnswer" placeholder="Type output or short answer..."></textarea>
+        <div style="text-align:center;margin-top:10px">
+          <button class="btn" id="quizSubmit">Submit</button>
+          <button class="btn ghost" id="quizNext" style="display:none">Next</button>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin-top:12px">
+        <button class="btn ghost" data-back="page-year">← Back</button>
+        <button class="btn" data-target="page-company">Next →</button>
+      </div>
+    </div>
   </section>
 
+  <!-- PAGE: COMPANY STATUS -->
+  <section id="page-company" class="page">
+    <div class="card">
+      <h2 class="center" style="color:var(--accent-2)">Coming Company Status</h2>
 
-  <section class="stats">
-    <h2>📊 GLA Placement Insights (2023–2024)</h2>
-    <p>
-      250+ students placed in top MNCs<br>
-      35% in product-based companies<br>
-      ₹3.6 LPA avg. CTC | ₹12 LPA highest<br>
-      Top Recruiters: TCS, Wipro, Infosys, Capgemini, Cognizant, Tech Mahindra
-    </p>
+      <div class="stats-grid">
+        <div class="stat-card"><h4 class="muted">Total Companies</h4><p>25</p></div>
+        <div class="stat-card"><h4 class="muted">Students Placed</h4><p>180</p></div>
+        <div class="stat-card"><h4 class="muted">Highest Package</h4><p>18 LPA (Amazon)</p></div>
+        <div class="stat-card"><h4 class="muted">Average Package</h4><p>6.2 LPA</p></div>
+      </div>
+
+      <h3 class="center" style="color:#66b3ff;margin-top:6px">Upcoming Companies</h3>
+      <div class="company-grid" style="margin-top:8px">
+        <div class="company-card">
+          <h4 style="color:#ffcc00">TCS</h4>
+          <p><strong>Date:</strong> 25th October 2025</p>
+          <p><strong>Role:</strong> Software Engineer</p>
+          <p><strong>CGPA:</strong> 6.5+</p>
+        </div>
+        <div class="company-card">
+          <h4 style="color:#ffcc00">Infosys</h4>
+          <p><strong>Date:</strong> 2nd November 2025</p>
+          <p><strong>Role:</strong> System Engineer</p>
+          <p><strong>CGPA:</strong> 7.0+</p>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin-top:16px">
+        <button class="btn ghost" data-back="page-quiz">← Back</button>
+        <button class="btn" id="back-home">Back to Home</button>
+      </div>
+    </div>
   </section>
 
- 
-  <section>
-    <h2>👥 Be a Part of the GLA Prep Community</h2>
-    <p>Join Telegram groups, WhatsApp discussions, coding contests & mentorship programs. You're not alone in this journey!</p>
-  </section>
+</div>
 
-  
-  <section id="faq">
-    <h2>❓ Frequently Asked Questions</h2>
-    <p><b>How is this app different?</b> It’s 100% GLA-focused with real placement insights.</p>
-    <p><b>Is this only for CSE students?</b> No, all branches included.</p>
-    <p><b>Are tests time-bound?</b> Yes, to simulate real drives.</p>
-    <p><b>Can I access offline content?</b> Yes, core materials are downloadable.</p>
-    <p><b>Is this app free?</b> Most features are free; premium launching soon.</p>
-  </section>
+<script>
+/* ---------- Page navigation with slide animations ---------- */
+const pages = ['page-login','page-home','page-tracks','page-year','page-quiz','page-company'];
+let currentIndex = 0;
+const duration = 420;
 
+function setActive(index, direction) {
+  if (index < 0 || index >= pages.length) return;
+  if (index === currentIndex) return;
+  const fromId = pages[currentIndex];
+  const toId = pages[index];
+  const fromEl = document.getElementById(fromId);
+  const toEl = document.getElementById(toId);
 
-  <section class="blog-preview">
-    <h2>🔖 Latest Articles</h2>
-    <p>How to Crack TCS NQT | Resume Tips | Top 5 Aptitude Tricks</p>
-    <p>🎉 <b>10,000+ MCQs Solved | 5,000+ Users | 98% Positive Feedback</b></p>
-    <p>⏰ Next TCS Off-Campus Drive: <b>Oct 25, 2025 — Are You Ready?</b></p>
-  </section>
+  // prepare entering element
+  toEl.classList.add('active','anim-transition');
+  fromEl.classList.add('anim-transition');
 
-
-  <footer id="contact">
-    <p>© 2025 GLA Placement Prep | All Rights Reserved</p>
-    <p>
-      <a href="#">About Us</a> |
-      <a href="#">Contact</a> |
-      <a href="#">Privacy Policy</a> |
-      <a href="#">Terms & Conditions</a> |
-      <a href="#">Follow Us</a>
-    </p>
-  </footer>
-
-  <script>
-    
-    document.querySelectorAll('.box').forEach(b => {
-      b.addEventListener('click', () => window.location.href = b.dataset.link);
+  if (direction === 'forward') {
+    toEl.classList.add('enter-from-right');
+    requestAnimationFrame(() => {
+      fromEl.classList.add('leave-to-left');
+      toEl.classList.remove('enter-from-right');
     });
-  </script>
+  } else {
+    toEl.classList.add('enter-from-left');
+    requestAnimationFrame(() => {
+      fromEl.classList.add('leave-to-right');
+      toEl.classList.remove('enter-from-left');
+    });
+  }
+
+  // cleanup after animation
+  setTimeout(() => {
+    fromEl.classList.remove('active','anim-transition','leave-to-left','leave-to-right');
+    fromEl.style.transform = '';
+    toEl.classList.remove('anim-transition','enter-from-left','enter-from-right');
+    currentIndex = index;
+    updateFocus();
+  }, duration + 20);
+}
+
+function goToPageById(id, dirHint) {
+  const idx = pages.indexOf(id);
+  if (idx === -1) return;
+  const dir = dirHint || (idx > currentIndex ? 'forward' : 'back');
+  setActive(idx, dir);
+}
+
+/* handle elements with data-target or data-back */
+document.addEventListener('click', e => {
+  const t = e.target;
+  const target = t.closest('[data-target]');
+  const back = t.closest('[data-back]');
+  if (target) {
+    const dest = target.dataset.target;
+    goToPageById(dest, 'forward');
+  } else if (back) {
+    const dest = back.dataset.back;
+    goToPageById(dest, 'back');
+  }
+});
+
+/* login */
+document.getElementById('btn-login').addEventListener('click', () => {
+  const u = document.getElementById('login-username').value.trim();
+  const p = document.getElementById('login-password').value.trim();
+  if (!u || !p) { alert('Please enter username and password'); return; }
+  // success: go to home
+  setTimeout(()=> goToPageById('page-home','forward'), 80);
+});
+
+/* logout from home */
+document.getElementById('logout-home').addEventListener('click', ()=> {
+  goToPageById('page-login','back');
+});
+
+/* back to home button on company page */
+document.getElementById('back-home').addEventListener('click', ()=> {
+  goToPageById('page-home','back');
+});
+
+/* initial focus helper */
+function updateFocus(){ // give small focus to first input if login
+  const cur = pages[currentIndex];
+  if (cur === 'page-login') {
+    const el = document.getElementById('login-username');
+    if (el) el.focus();
+  } else if (cur === 'page-year') {
+    // scroll program holder to top
+    document.getElementById('programHolder').scrollIntoView({behavior:'smooth'});
+  }
+}
+
+/* ---------- populate DSA list (tracks) ---------- */
+(function populateDSA(){
+  const questions = [
+    ["Two Sum","https://leetcode.com/problems/two-sum/"],
+    ["Add Two Numbers","https://leetcode.com/problems/add-two-numbers/"],
+    ["Longest Substring Without Repeating Characters","https://leetcode.com/problems/longest-substring-without-repeating-characters/"],
+    ["Median of Two Sorted Arrays","https://leetcode.com/problems/median-of-two-sorted-arrays/"],
+    ["Longest Palindromic Substring","https://leetcode.com/problems/longest-palindromic-substring/"],
+    ["Zigzag Conversion","https://leetcode.com/problems/zigzag-conversion/"],
+    ["Reverse Integer","https://leetcode.com/problems/reverse-integer/"],
+    ["String to Integer (atoi)","https://leetcode.com/problems/string-to-integer-atoi/"],
+    ["Palindrome Number","https://leetcode.com/problems/palindrome-number/"]
+    // add more if you want
+  ];
+  const container = document.getElementById('dsaList');
+  questions.forEach((q,i)=>{
+    const div = document.createElement('div');
+    div.className = 'dsa-item';
+    div.innerHTML = `<a href="${q[1]}" target="_blank" rel="noreferrer">${i+1}. ${q[0]}</a>`;
+    container.appendChild(div);
+  });
+})();
+
+/* ---------- Year programs logic ---------- */
+(function yearPrograms(){
+  const data = {
+    1: { color:"#1a73e8", title:"1st Year Programs", desc:"Basic programming exercises.", programs:[
+      {title:"Print Hello World", code:"#include <stdio.h>\nint main(){printf(\"Hello, World!\");return 0;}"},
+      {title:"Find Sum of Two Numbers", code:"#include <stdio.h>\nint main(){int a,b;scanf(\"%d%d\",&a,&b);printf(\"%d\",a+b);}"},
+      {title:"Check Even or Odd", code:"#include <stdio.h>\nint main(){int n;scanf(\"%d\",&n);printf(n%2==0?\"Even\":\"Odd\");}"}
+    ]},
+    2: { color:"#00ffae", title:"2nd Year Programs", desc:"OOP & Data Structures", programs:["Classes & Objects","Inheritance","Linked List","Stack","Queue"] },
+    3: { color:"#ff9933", title:"3rd Year Programs", desc:"Advanced DS & Networking", programs:["Graphs","Hash Tables","Dynamic Programming","Socket Programming"] },
+    4: { color:"#cc33ff", title:"4th Year Programs", desc:"Industry Projects", programs:["ML Basics","Cloud & REST APIs","E-commerce Project","Portfolio Website"] }
+  };
+
+  const grid = document.getElementById('yearGrid');
+  const holder = document.getElementById('programHolder');
+
+  grid.addEventListener('click', (e) => {
+    const card = e.target.closest('.year-card');
+    if (!card) return;
+    const y = card.getAttribute('data-year');
+    render(y);
+  });
+
+  function render(y) {
+    const obj = data[y];
+    if (!obj) { holder.innerHTML = ''; return; }
+    let html = `<div style="text-align:center;margin-top:14px"><h3 style="color:${obj.color}">${obj.title}</h3><p class="muted">${obj.desc}</p></div>`;
+    html += '<div class="program-list">';
+    if (y==1) {
+      obj.programs.forEach(p=>{
+        html += `<div class="program-card"><div class="program-title">${p.title}</div><div class="program-code">${escapeHtml(p.code)}</div></div>`;
+      });
+    } else {
+      obj.programs.forEach((p,i)=>{
+        html += `<div class="program-card"><div class="program-title">${i+1}. ${p}</div><div class="program-code">// Code for "${p}" goes here</div></div>`;
+      });
+    }
+    html += `</div>`;
+    holder.innerHTML = html;
+    holder.querySelectorAll('.program-card').forEach(c=>c.addEventListener('click', ()=>c.classList.toggle('open')));
+  }
+
+  function escapeHtml(s){ if(!s) return ''; return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+})();
+
+/* ---------- Quiz logic ---------- */
+(function quizSystem(){
+  function mak(q,c,a,t){ return {q,c,a:String(a).trim(),t}; }
+  const sets = {
+    "1-5":[ mak("Print Hello World", `public class Main { public static void main(String[] args){ System.out.println(\"Hello World\"); } }`, "Hello World", "Java/Basic"),
+           mak("Sum two numbers", `int a=5,b=3; System.out.println(a+b);`, "8", "Basics") ],
+    "5-10":[ mak("Quicksort worst-case", "", "O(n^2)", "DSA"),
+            mak("Purpose of sharding", "", "Scale horizontally", "System Design") ],
+    "12+":[ mak("LIS optimized complexity","", "O(n log n)", "DSA-Advanced"),
+           mak("Describe MVCC", "", "Multiple versions", "DBMS") ]
+  };
+
+  let current=[], idx=0, score=0, wrong=[];
+  const tabs = document.querySelectorAll('#quizTabs .tab-btn');
+  const title = document.getElementById('quizTitle');
+  const code = document.getElementById('quizCode');
+  const ans = document.getElementById('quizAnswer');
+  const submit = document.getElementById('quizSubmit');
+  const next = document.getElementById('quizNext');
+
+  tabs.forEach(t=> t.addEventListener('click', ()=> {
+    tabs.forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    start(t.dataset.tab);
+  }));
+
+  function start(name){
+    current = (sets[name]||[]).slice();
+    idx = 0; score = 0; wrong = [];
+    if (!current.length) { title.innerText = 'No questions'; code.innerText = ''; return; }
+    show();
+  }
+
+  function show(){
+    const item = current[idx];
+    title.innerText = `Q${idx+1}: ${item.q} (Topic: ${item.t})`;
+    code.innerText = item.c || "// No code snippet";
+    ans.value = ''; next.style.display='none';
+  }
+
+  function normalize(s){ return String(s||'').trim().replace(/\s+/g,' ').toLowerCase(); }
+
+  submit.addEventListener('click', ()=>{
+    const item = current[idx];
+    const given = normalize(ans.value);
+    const exp = normalize(item.a);
+    let ok = false;
+    if (exp.length===0) ok = given.length>0;
+    else if (given===exp || given.includes(exp) || exp.includes(given)) ok = true;
+    if (ok) { alert('✅ Correct'); score++; } else { alert('❌ Incorrect'); if (!wrong.includes(item.t)) wrong.push(item.t); }
+    next.style.display='inline-block';
+  });
+
+  next.addEventListener('click', ()=>{
+    idx++;
+    if (idx < current.length) show(); else {
+      alert(`Quiz finished. Score: ${score}/${current.length}\nImprove: ${wrong.join(',') || 'None'}`);
+      idx = 0; score = 0; wrong = [];
+      if (current.length) show();
+    }
+  });
+
+  // auto-select first tab on load
+  const first = document.querySelector('#quizTabs .tab-btn');
+  if (first) first.click();
+})();
+
+/* ---------- keyboard arrows navigation ---------- */
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight') {
+    if (currentIndex < pages.length -1) setActive(currentIndex+1,'forward');
+  } else if (e.key === 'ArrowLeft') {
+    if (currentIndex > 0) setActive(currentIndex-1,'back');
+  }
+});
+
+/* ensure only the initial page is active */
+window.addEventListener('load', () => {
+  pages.forEach((id,i)=>{
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (i===0) el.classList.add('active');
+    else { el.classList.remove('active'); el.style.transform = ''; }
+  });
+  updateFocus();
+});
+</script>
 </body>
 </html>
